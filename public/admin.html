@@ -26,12 +26,12 @@
         </a>
     </div>
 
-    <!-- ใส่ novalidate เพื่อปิดการแจ้งเตือน pattern error ของ Safari -->
+    <!-- เปลี่ยนเป็น div เพื่อปิดการทำงานของ HTML Form บน iOS 100% -->
     <div class="glass-card neon-border rounded-2xl p-5 mb-6 border">
         <h2 class="text-xs font-bold text-purple-400 mb-3 uppercase tracking-wider">
             <i class="fa-solid fa-plus-circle mr-1.5"></i>เพิ่มรายการไฟล์ใหม่
         </h2>
-        <form id="addFileForm" novalidate class="space-y-3">
+        <div class="space-y-3">
             <div>
                 <label class="block text-[11px] text-slate-400 mb-1">รหัสผ่าน Admin *</label>
                 <input type="password" id="adminPass" placeholder="กรอกรหัสผ่าน (เช่น 1234)" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-purple-500">
@@ -52,10 +52,10 @@
                 <label class="block text-[11px] text-slate-400 mb-1">ลิงก์ไฟล์เสียงตัวอย่าง (.mp3 - ถ้ามี)</label>
                 <input type="text" id="fileAudio" placeholder="https://.../sample.mp3" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-purple-500">
             </div>
-            <button type="button" onclick="submitData()" id="submitBtn" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-2.5 rounded-xl text-xs transition mt-2">
+            <button type="button" onclick="submitData()" id="submitBtn" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-2.5 rounded-xl text-xs transition mt-2 active:scale-95">
                 บันทึกเข้าฐานข้อมูล
             </button>
-        </form>
+        </div>
     </div>
 
     <!-- รายการไฟล์สำหรับลบ -->
@@ -125,7 +125,11 @@
                 if (!res.ok) throw new Error(data.error || 'รหัสผ่านไม่ถูกต้อง หรือเกิดข้อผิดพลาด');
 
                 alert('เพิ่มรายการสำเร็จ!');
-                document.getElementById('addFileForm').reset();
+                document.getElementById('adminPass').value = '';
+                document.getElementById('fileTitle').value = '';
+                document.getElementById('fileCategory').value = '';
+                document.getElementById('fileDownload').value = '';
+                document.getElementById('fileAudio').value = '';
                 loadAdminFiles();
             } catch (err) {
                 alert(err.message);
