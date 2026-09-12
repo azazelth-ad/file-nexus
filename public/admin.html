@@ -3,125 +3,407 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FILE HUB - Admin Panel</title>
+    <title>FILE HUB - Cyber Admin Panel</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background-color: #0b0f19; color: #e2e8f0; font-family: system-ui, -apple-system, sans-serif; }
-        .glass-card { background: rgba(17, 24, 39, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
-        .neon-border { border-color: rgba(168, 85, 247, 0.4); box-shadow: 0 0 15px rgba(168, 85, 247, 0.15); }
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            background-color: #060913;
+            color: #e2e8f0;
+            font-family: 'Kanit', sans-serif;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(168, 85, 247, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+
+        /* Glassmorphism Effect */
+        .glass-panel {
+            background: rgba(13, 19, 35, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .cyber-card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .cyber-card-hover:hover {
+            transform: translateY(-4px);
+            border-color: rgba(168, 85, 247, 0.4);
+            box-shadow: 0 10px 25px -5px rgba(168, 85, 247, 0.2), 0 0 15px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Animations */
+        @keyframes vinylSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .vinyl-spin {
+            animation: vinylSpin 8s linear infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+
+        .glow-effect {
+            animation: pulseGlow 4s ease-in-out infinite;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #060913; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9333ea; }
     </style>
 </head>
-<body class="min-h-screen p-4 max-w-2xl mx-auto pb-12">
+<body class="min-h-screen p-3 md:p-6 pb-20">
 
-    <div class="flex items-center justify-between my-6">
-        <div class="flex items-center space-x-2">
-            <div class="w-8 h-8 bg-purple-600/20 border border-purple-500/40 rounded-lg flex items-center justify-center text-purple-400">
-                <i class="fa-solid fa-sliders"></i>
+    <!-- Container Header -->
+    <div class="max-w-6xl mx-auto flex items-center justify-between mb-8 glass-panel p-4 rounded-2xl border border-slate-800 shadow-xl">
+        <div class="flex items-center space-x-3">
+            <div class="relative flex items-center justify-center">
+                <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-cyan-500 rounded-xl blur opacity-75 glow-effect"></div>
+                <div class="relative w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center border border-purple-500/50 text-purple-400">
+                    <i class="fa-solid fa-sliders text-lg"></i>
+                </div>
             </div>
-            <h1 class="text-lg font-bold text-purple-300">ระบบจัดการแจกไฟล์</h1>
+            <div>
+                <h1 class="text-lg font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
+                    FILE HUB CONTROL PANEL
+                </h1>
+                <p class="text-[11px] text-slate-400">จัดการไฟล์ เพิ่มรูปภาพ และทดสอบระบบเล่นเสียง</p>
+            </div>
         </div>
-        <a href="/" class="text-xs text-slate-400 hover:text-white bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 transition">
-            <i class="fa-solid fa-arrow-left mr-1"></i> หน้าหลัก
+        <a href="/" class="group flex items-center space-x-2 text-xs text-slate-300 hover:text-white bg-slate-800/80 hover:bg-purple-600 px-4 py-2 rounded-xl border border-slate-700/80 transition-all duration-300">
+            <i class="fa-solid fa-house group-hover:-translate-x-1 transition-transform"></i>
+            <span>หน้าหลัก</span>
         </a>
     </div>
 
-    <!-- ฟอร์มเพิ่มไฟล์ -->
-    <div class="glass-card neon-border rounded-2xl p-5 mb-6 border">
-        <h2 class="text-xs font-bold text-purple-400 mb-3 uppercase tracking-wider flex items-center gap-1.5">
-            <i class="fa-solid fa-file-circle-plus"></i> เพิ่มไฟล์ใหม่เข้าสู่ระบบ
-        </h2>
-        <div class="space-y-3">
-            <div>
-                <label class="block text-[11px] text-slate-400 mb-1">รหัสผ่าน Admin *</label>
-                <input type="password" id="adminPass" placeholder="กรอกรหัสผ่าน Admin" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-purple-500">
+    <!-- Main Content Layout -->
+    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- ฝั่งซ้าย: ฟอร์มเพิ่มไฟล์ใหม่ (5 cols) -->
+        <div class="lg:col-span-5 space-y-6">
+            <div class="glass-panel rounded-2xl p-5 border border-purple-500/20 shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 -mt-8 -mr-8 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl pointer-events-none"></div>
+                
+                <h2 class="text-xs font-bold text-purple-400 uppercase tracking-widest flex items-center gap-2 mb-4">
+                    <i class="fa-solid fa-cloud-arrow-up text-sm"></i> เพิ่มไฟล์ใหม่เข้าระบบ
+                </h2>
+
+                <form id="uploadForm" class="space-y-3.5" onsubmit="event.preventDefault(); submitFile();">
+                    
+                    <div>
+                        <label class="block text-[11px] font-medium text-slate-300 mb-1">รหัสผ่าน Admin *</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-lock absolute left-3 top-2.5 text-slate-500 text-xs"></i>
+                            <input type="password" id="adminPass" required placeholder="กรอกรหัสผ่าน Admin" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-8 pr-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500 transition">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-medium text-slate-300 mb-1">ชื่อไฟล์ / หัวข้อ *</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-heading absolute left-3 top-2.5 text-slate-500 text-xs"></i>
+                            <input type="text" id="fileTitle" required placeholder="เช่น DJ Loop Kit Vol.1 หรือ Sound Effects" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-8 pr-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500 transition">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-medium text-slate-300 mb-1">หมวดหมู่</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-folder absolute left-3 top-2.5 text-slate-500 text-xs"></i>
+                            <input type="text" id="fileCategory" placeholder="เช่น DJ Remix, Loop, Software" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-8 pr-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500 transition">
+                        </div>
+                    </div>
+
+                    <!-- อัปโหลด/ใส่รูปภาพหน้าปก -->
+                    <div>
+                        <label class="block text-[11px] font-medium text-slate-300 mb-1">รูปภาพหน้าปก (Image Cover)</label>
+                        <div class="space-y-2">
+                            <div class="relative">
+                                <i class="fa-solid fa-image absolute left-3 top-2.5 text-slate-500 text-xs"></i>
+                                <input type="text" id="fileImageUrl" onchange="previewImageFromUrl(this.value)" placeholder="วาง URL รูปภาพ (https://...jpg)" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-8 pr-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500 transition">
+                            </div>
+                            
+                            <div class="flex items-center gap-2">
+                                <label class="flex-1 cursor-pointer bg-slate-800/80 hover:bg-slate-700 text-slate-300 text-[11px] py-2 px-3 rounded-xl border border-slate-700 border-dashed text-center transition flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-upload text-purple-400"></i>
+                                    <span>หรือ เลือกรูปจากเครื่อง</span>
+                                    <input type="file" id="fileImageInput" accept="image/*" onchange="handleImageFile(this)" class="hidden">
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- ตัวอย่างภาพที่เลือก -->
+                        <div id="imagePreviewBox" class="hidden mt-2 relative group rounded-xl overflow-hidden border border-purple-500/30 bg-slate-900 h-28 flex items-center justify-center">
+                            <img id="previewImg" src="" class="w-full h-full object-cover">
+                            <button type="button" onclick="clearImagePreview()" class="absolute top-1.5 right-1.5 bg-red-600/80 hover:bg-red-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs transition">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-medium text-slate-300 mb-1">ลิงก์ดาวน์โหลด *</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-link absolute left-3 top-2.5 text-slate-500 text-xs"></i>
+                            <input type="text" id="fileDownload" required placeholder="https://drive.google.com/..." class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-8 pr-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500 transition">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-medium text-slate-300 mb-1">ลิงก์ตัวอย่างเสียง (.mp3 - ถ้ามี)</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-music absolute left-3 top-2.5 text-slate-500 text-xs"></i>
+                            <input type="text" id="fileAudio" placeholder="https://.../sample.mp3" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-8 pr-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500 transition">
+                        </div>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold py-3 rounded-xl text-xs transition-all duration-300 shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 mt-2">
+                        <i class="fa-solid fa-floppy-disk"></i> บันทึกไฟล์เข้าระบบ
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ฝั่งขวา: รายการจัดการไฟล์ทั้งหมด (7 cols) -->
+        <div class="lg:col-span-7 space-y-4">
+            
+            <div class="flex items-center justify-between glass-panel p-3.5 rounded-2xl border border-slate-800">
+                <h2 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+                    <i class="fa-solid fa-layer-group text-purple-400"></i> รายการไฟล์ในระบบ
+                </h2>
+                <div class="relative">
+                    <input type="text" id="searchInput" onkeyup="filterFiles()" placeholder="ค้นหาไฟล์..." class="bg-slate-900/80 border border-slate-700/80 rounded-xl text-xs text-white pl-8 pr-3 py-1.5 focus:outline-none focus:border-purple-500 w-40 sm:w-56 transition">
+                    <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2 text-slate-500 text-xs"></i>
+                </div>
+            </div>
+
+            <!-- List Container -->
+            <div id="adminFileList" class="space-y-3">
+                <div class="glass-panel rounded-2xl p-8 text-center text-slate-500 text-xs border border-slate-800">
+                    <i class="fa-solid fa-circle-notch fa-spin text-purple-400 text-lg mb-2"></i>
+                    <p>กำลังโหลดรายการไฟล์...</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Toast Notification Popup -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="glass-panel border border-purple-500/40 rounded-xl p-4 shadow-2xl flex items-center gap-3 bg-slate-900/95">
+            <div id="toastIcon" class="w-8 h-8 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center">
+                <i class="fa-solid fa-circle-check"></i>
             </div>
             <div>
-                <label class="block text-[11px] text-slate-400 mb-1">ชื่อไฟล์ / หัวข้อ *</label>
-                <input type="text" id="fileTitle" placeholder="เช่น DJ Loop Kit Vol.1 หรือ โปรแกรม X" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-purple-500">
+                <h4 id="toastTitle" class="text-xs font-bold text-white">แจ้งเตือน</h4>
+                <p id="toastMessage" class="text-[11px] text-slate-300">ข้อความ...</p>
             </div>
-            <div>
-                <label class="block text-[11px] text-slate-400 mb-1">หมวดหมู่</label>
-                <input type="text" id="fileCategory" placeholder="เช่น Sound Loop, Music, Software, Mod" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-purple-500">
-            </div>
-            <div>
-                <label class="block text-[11px] text-slate-400 mb-1">ลิงก์ดาวน์โหลด (Google Drive / Mega / MediaFire) *</label>
-                <input type="text" id="fileDownload" placeholder="https://drive.google.com/..." class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-purple-500">
-            </div>
-            <div>
-                <label class="block text-[11px] text-slate-400 mb-1">ลิงก์ตัวอย่างเสียง (.mp3 - ถ้ามี)</label>
-                <input type="text" id="fileAudio" placeholder="https://.../sample.mp3" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-purple-500">
-            </div>
-            <button type="button" onclick="submitFile()" id="submitBtn" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-2.5 rounded-xl text-xs transition mt-2 active:scale-95">
-                บันทึกไฟล์เข้าระบบ
-            </button>
         </div>
     </div>
 
-    <!-- รายการจัดการ -->
-    <h2 class="text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider flex items-center gap-1.5">
-        <i class="fa-solid fa-list-check"></i> จัดการรายการไฟล์ในระบบ
-    </h2>
-    <div id="adminFileList" class="space-y-3">
-        <div class="text-center py-8 text-slate-500 text-xs glass-card rounded-xl">กำลังโหลด...</div>
-    </div>
-
     <script>
+        let currentImageBase64 = "";
+
+        // พรีวิวรูปภาพจากการอัปโหลดไฟล์ในเครื่อง
+        function handleImageFile(input) {
+            const file = input.files[0];
+            if (file) {
+                if (file.size > 2 * 1024 * 1024) {
+                    showToast('error', 'ขนาดไฟล์ใหญ่เกินไป', 'กรุณาใช้รูปภาพขนาดไม่เกิน 2MB');
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    currentImageBase64 = e.target.result;
+                    document.getElementById('previewImg').src = currentImageBase64;
+                    document.getElementById('imagePreviewBox').classList.remove('hidden');
+                    document.getElementById('fileImageUrl').value = ''; 
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // พรีวิวรูปภาพจาก URL
+        function previewImageFromUrl(url) {
+            if (url.trim() !== "") {
+                currentImageBase64 = url.trim();
+                document.getElementById('previewImg').src = currentImageBase64;
+                document.getElementById('imagePreviewBox').classList.remove('hidden');
+                document.getElementById('fileImageInput').value = '';
+            }
+        }
+
+        function clearImagePreview() {
+            currentImageBase64 = "";
+            document.getElementById('fileImageUrl').value = "";
+            document.getElementById('fileImageInput').value = "";
+            document.getElementById('previewImg').src = "";
+            document.getElementById('imagePreviewBox').classList.add('hidden');
+        }
+
+        // โหลดรายการไฟล์จาก Vercel API
         async function loadAdminFiles() {
             const listEl = document.getElementById('adminFileList');
             try {
                 const res = await fetch('/api/files');
-                
-                // ตรวจสอบ Content-Type ก่อน parse
                 const contentType = res.headers.get("content-type");
                 let files;
                 if (contentType && contentType.includes("application/json")) {
                     files = await res.json();
                 } else {
-                    listEl.innerHTML = `<div class="text-center py-6 text-red-400 text-xs glass-card rounded-xl">ยังไม่ได้ตั้งค่า API Server (` + res.status + `)</div>`;
+                    listEl.innerHTML = `<div class="glass-panel p-6 rounded-2xl text-center text-red-400 text-xs">ยังไม่ได้เชื่อมต่อ API Server (${res.status})</div>`;
                     return;
                 }
 
                 if (!files || files.length === 0) {
-                    listEl.innerHTML = `<div class="text-center py-6 text-slate-500 text-xs glass-card rounded-xl">ยังไม่มีไฟล์ในระบบ</div>`;
+                    listEl.innerHTML = `<div class="glass-panel p-8 rounded-2xl text-center text-slate-500 text-xs">ยังไม่มีรายการไฟล์ในระบบ</div>`;
                     return;
                 }
-                listEl.innerHTML = files.map(file => `
-                    <div class="glass-card rounded-xl p-3 flex items-center justify-between gap-3 border border-slate-800">
-                        <div class="overflow-hidden">
-                            <span class="text-[9px] font-bold text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded-full border border-purple-500/20">${escapeHtml(file.category || 'General')}</span>
-                            <h3 class="font-semibold text-xs text-slate-200 mt-1 truncate">${escapeHtml(file.title)}</h3>
-                        </div>
-                        <button onclick="deleteFile('${file.id}')" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs px-3 py-1.5 rounded-lg border border-red-500/30 transition shrink-0">
-                            <i class="fa-solid fa-trash mr-1"></i> ลบ
-                        </button>
-                    </div>
-                `).join('');
+
+                window.cachedFiles = files; // เก็บแคชไว้ค้นหา
+                renderFileList(files);
+
             } catch (err) {
-                listEl.innerHTML = `<div class="text-center py-6 text-red-400 text-xs glass-card rounded-xl">โหลดรายการไม่สำเร็จ</div>`;
+                listEl.innerHTML = `<div class="glass-panel p-6 rounded-2xl text-center text-red-400 text-xs">เกิดข้อผิดพลาดในการโหลดรายการ</div>`;
             }
         }
 
+        // แสดงผลรายการไฟล์ พร้อมรูปภาพและเครื่องเล่นเสียง
+        function renderFileList(files) {
+            const listEl = document.getElementById('adminFileList');
+            listEl.innerHTML = files.map((file, idx) => {
+                const coverImg = file.imageUrl || 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=300&auto=format&fit=crop&q=60';
+                const hasAudio = file.audioUrl && file.audioUrl.trim() !== '';
+
+                return `
+                    <div class="file-item glass-panel cyber-card-hover rounded-2xl p-4 border border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                        <div class="flex items-center gap-3.5 overflow-hidden w-full sm:w-auto">
+                            <!-- รูปภาพหน้าปกพร้อม Spin Effect เมื่อเล่นเสียง -->
+                            <div class="relative shrink-0 w-14 h-14 rounded-xl overflow-hidden bg-slate-900 border border-purple-500/30 shadow-md group">
+                                <img src="${escapeHtml(coverImg)}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                                ${hasAudio ? `
+                                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                                        <i class="fa-solid fa-compact-disc text-purple-400 vinyl-spin text-xl"></i>
+                                    </div>
+                                ` : ''}
+                            </div>
+
+                            <div class="overflow-hidden flex-1">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-[9px] font-bold text-purple-300 bg-purple-500/10 px-2.5 py-0.5 rounded-full border border-purple-500/20">
+                                        ${escapeHtml(file.category || 'General')}
+                                    </span>
+                                </div>
+                                <h3 class="font-bold text-xs text-slate-100 mt-1 truncate">${escapeHtml(file.title)}</h3>
+                                
+                                <!-- ตัวเล่นเสียง MP3 -->
+                                ${hasAudio ? `
+                                    <div class="mt-2 flex items-center gap-2">
+                                        <button onclick="toggleAudio('audio-${idx}', this)" class="bg-purple-600/30 hover:bg-purple-600 text-purple-300 hover:text-white px-2.5 py-1 rounded-lg text-[10px] border border-purple-500/30 transition flex items-center gap-1.5">
+                                            <i class="fa-solid fa-play"></i> <span>ฟังตัวอย่าง</span>
+                                        </button>
+                                        <audio id="audio-${idx}" src="${escapeHtml(file.audioUrl)}" onended="resetAudioBtn(this)"></audio>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+
+                        <!-- ปุ่มดำเนินการ -->
+                        <div class="flex items-center gap-2 w-full sm:w-auto justify-end border-t sm:border-t-0 border-slate-800/80 pt-2 sm:pt-0">
+                            <a href="${escapeHtml(file.downloadUrl)}" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs px-3 py-1.5 rounded-xl border border-slate-700 transition flex items-center gap-1">
+                                <i class="fa-solid fa-down-long text-[10px]"></i> โหลด
+                            </a>
+                            <button onclick="deleteFile('${file.id}')" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 text-xs px-3 py-1.5 rounded-xl border border-red-500/20 transition flex items-center gap-1">
+                                <i class="fa-solid fa-trash-can text-[10px]"></i> ลบ
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ระบบควบคุมเครื่องเล่นเสียง
+        function toggleAudio(id, btn) {
+            const audio = document.getElementById(id);
+            const icon = btn.querySelector('i');
+            const label = btn.querySelector('span');
+
+            // หยุดเสียงอื่นทั้งหมดก่อน
+            document.querySelectorAll('audio').forEach(a => {
+                if (a.id !== id) {
+                    a.pause();
+                    a.currentTime = 0;
+                    const b = a.previousElementSibling;
+                    if (b) {
+                        b.querySelector('i').className = 'fa-solid fa-play';
+                        b.querySelector('span').innerText = 'ฟังตัวอย่าง';
+                    }
+                }
+            });
+
+            if (audio.paused) {
+                audio.play();
+                icon.className = 'fa-solid fa-pause';
+                label.innerText = 'หยุดเล่น';
+            } else {
+                audio.pause();
+                icon.className = 'fa-solid fa-play';
+                label.innerText = 'ฟังตัวอย่าง';
+            }
+        }
+
+        function resetAudioBtn(audio) {
+            const btn = audio.previousElementSibling;
+            if (btn) {
+                btn.querySelector('i').className = 'fa-solid fa-play';
+                btn.querySelector('span').innerText = 'ฟังตัวอย่าง';
+            }
+        }
+
+        // ค้นหาไฟล์
+        function filterFiles() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            if (!window.cachedFiles) return;
+            const filtered = window.cachedFiles.filter(f => 
+                f.title.toLowerCase().includes(query) || 
+                (f.category && f.category.toLowerCase().includes(query))
+            );
+            renderFileList(filtered);
+        }
+
+        // บันทึกไฟล์เข้าระบบ
         async function submitFile() {
             const pass = document.getElementById('adminPass').value;
             const title = document.getElementById('fileTitle').value;
             const downloadUrl = document.getElementById('fileDownload').value;
 
             if (!pass || !title || !downloadUrl) {
-                alert('กรุณากรอก รหัสผ่าน, ชื่อไฟล์ และ ลิงก์ดาวน์โหลด ให้ครบถ้วน');
+                showToast('error', 'ข้อมูลไม่ครบถ้วน', 'กรุณากรอกรหัสผ่าน, ชื่อไฟล์ และลิงก์ดาวน์โหลด');
                 return;
             }
 
             const btn = document.getElementById('submitBtn');
             btn.disabled = true;
-            btn.innerText = 'กำลังบันทึก...';
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> กำลังบันทึก...`;
 
             const payload = {
                 password: pass,
                 title: title,
                 category: document.getElementById('fileCategory').value,
                 downloadUrl: downloadUrl,
-                audioUrl: document.getElementById('fileAudio').value
+                audioUrl: document.getElementById('fileAudio').value,
+                imageUrl: currentImageBase64
             };
 
             try {
@@ -131,32 +413,32 @@
                     body: JSON.stringify(payload)
                 });
 
-                // ดักจับรูปแบบข้อมูลที่ตอบกลับมาจาก Server
                 const contentType = res.headers.get("content-type");
                 let data;
                 if (contentType && contentType.includes("application/json")) {
                     data = await res.json();
                 } else {
-                    const textErr = await res.text();
-                    throw new Error(`ข้อผิดพลาดจาก Server (${res.status}): โปรดตรวจสอบการสร้างไฟล์ /api/files.js`);
+                    throw new Error(`Server ตอบกลับผิดพลาด (${res.status})`);
                 }
 
-                if (!res.ok) throw new Error(data.error || 'เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+                if (!res.ok) throw new Error(data.error || 'บันทึกข้อมูลไม่สำเร็จ');
 
-                alert('เพิ่มไฟล์สำเร็จ!');
-                document.getElementById('fileTitle').value = '';
-                document.getElementById('fileCategory').value = '';
-                document.getElementById('fileDownload').value = '';
-                document.getElementById('fileAudio').value = '';
+                showToast('success', 'สำเร็จ!', 'เพิ่มไฟล์ใหม่เรียบร้อยแล้ว');
+                
+                // ล้างฟอร์ม
+                document.getElementById('uploadForm').reset();
+                clearImagePreview();
                 loadAdminFiles();
+
             } catch (err) {
-                alert(err.message);
+                showToast('error', 'เกิดข้อผิดพลาด', err.message);
             } finally {
                 btn.disabled = false;
-                btn.innerText = 'บันทึกไฟล์เข้าระบบ';
+                btn.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> บันทึกไฟล์เข้าระบบ`;
             }
         }
 
+        // ลบไฟล์
         async function deleteFile(id) {
             const pass = prompt('กรุณากรอกรหัสผ่าน Admin เพื่อยืนยันการลบ:');
             if (!pass) return;
@@ -168,24 +450,45 @@
                     body: JSON.stringify({ id, password: pass })
                 });
 
-                const contentType = res.headers.get("content-type");
-                let data;
-                if (contentType && contentType.includes("application/json")) {
-                    data = await res.json();
-                } else {
-                    throw new Error('Server ไม่ตอบกลับในรูปแบบ JSON');
-                }
-
+                const data = await res.json();
                 if (!res.ok) throw new Error(data.error || 'รหัสผ่านไม่ถูกต้อง');
 
-                alert('ลบรายการเรียบร้อย');
+                showToast('success', 'ลบสำเร็จ', 'ลบรายการไฟล์เรียบร้อย');
                 loadAdminFiles();
             } catch (err) {
-                alert(err.message);
+                showToast('error', 'ลบไม่สำเร็จ', err.message);
             }
         }
 
-        function escapeHtml(str) { return (str || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+        // แสดง Toast แจ้งเตือน
+        function showToast(type, title, message) {
+            const toast = document.getElementById('toast');
+            const toastTitle = document.getElementById('toastTitle');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+
+            toastTitle.innerText = title;
+            toastMessage.innerText = message;
+
+            if (type === 'success') {
+                toastIcon.className = 'w-8 h-8 rounded-lg bg-green-500/20 text-green-400 flex items-center justify-center';
+                toastIcon.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+            } else {
+                toastIcon.className = 'w-8 h-8 rounded-lg bg-red-500/20 text-red-400 flex items-center justify-center';
+                toastIcon.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+            }, 3500);
+        }
+
+        function escapeHtml(str) { 
+            return (str || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;"); 
+        }
+
+        // เริ่มต้นโหลดไฟล์
         loadAdminFiles();
     </script>
 </body>
