@@ -1,21 +1,21 @@
 // api/files.js
-// ตั้งรหัสผ่าน Admin ตรงนี้ (หรือตั้งใน Vercel Environment Variables ก็ได้)
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "1234";
 
-// ตัวอย่างการเก็บข้อมูลชั่วคราว (หมายเหตุ: Vercel Function Serverless แบบฟรี ข้อมูลในหน่วยความจำอาจถูกรีเซ็ตได้ ควรเชื่อมกับ Vercel KV/Supabase/Firebase)
-let filesDatabase = [];
+// ข้อมูลตั้งต้นชั่วคราว
+if (!global.filesDatabase) {
+    global.filesDatabase = [];
+}
 
 export default async function handler(req, res) {
-    // ให้ตอบกลับเป็น JSON เสมอเพื่อป้องกัน SyntaxError
     res.setHeader('Content-Type', 'application/json');
 
     try {
         if (req.method === 'GET') {
-            return res.status(200).json(filesDatabase);
+            return res.status(200).json(global.filesDatabase);
         }
 
         if (req.method === 'POST') {
-            const { password, title, category, downloadUrl, audioUrl } = req.body;
+            const { password, title, category, downloadUrl, audioUrl, imageUrl } = req.body;
 
             if (password !== ADMIN_PASSWORD) {
                 return res.status(401).json({ error: 'รหัสผ่าน Admin ไม่ถูกต้อง' });
@@ -31,10 +31,11 @@ export default async function handler(req, res) {
                 category: category || 'ทั่วไป',
                 downloadUrl,
                 audioUrl: audioUrl || '',
+                imageUrl: imageUrl || '',
                 createdAt: new Date().toISOString()
             };
 
-            filesDatabase.unshift(newFile);
+            global.filesDatabase.unshift(newFile);
             return res.status(201).json({ success: true, file: newFile });
         }
 
@@ -45,7 +46,7 @@ export default async function handler(req, res) {
                 return res.status(401).json({ error: 'รหัสผ่าน Admin ไม่ถูกต้อง' });
             }
 
-            filesDatabase = filesDatabase.filter(file => file.id !== id);
+            global.filesDatabase = global.filesDatabase.filter(file => file.id !== id);
             return res.status(200).json({ success: true });
         }
 
