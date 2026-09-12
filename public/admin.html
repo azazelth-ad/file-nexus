@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - FILE-NEXUS</title>
+    <title>FILE HUB - Admin Panel</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -17,50 +17,50 @@
     <div class="flex items-center justify-between my-6">
         <div class="flex items-center space-x-2">
             <div class="w-8 h-8 bg-purple-600/20 border border-purple-500/40 rounded-lg flex items-center justify-center text-purple-400">
-                <i class="fa-solid fa-user-shield"></i>
+                <i class="fa-solid fa-sliders"></i>
             </div>
-            <h1 class="text-lg font-bold text-purple-300">FILE-NEXUS Admin Panel</h1>
+            <h1 class="text-lg font-bold text-purple-300">ระบบจัดการแจกไฟล์</h1>
         </div>
         <a href="/" class="text-xs text-slate-400 hover:text-white bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 transition">
-            <i class="fa-solid fa-arrow-left mr-1"></i> ไปหน้าหลัก
+            <i class="fa-solid fa-arrow-left mr-1"></i> หน้าหลัก
         </a>
     </div>
 
-    <!-- เปลี่ยนเป็น div เพื่อปิดการทำงานของ HTML Form บน iOS 100% -->
+    <!-- ฟอร์มเพิ่มไฟล์ -->
     <div class="glass-card neon-border rounded-2xl p-5 mb-6 border">
-        <h2 class="text-xs font-bold text-purple-400 mb-3 uppercase tracking-wider">
-            <i class="fa-solid fa-plus-circle mr-1.5"></i>เพิ่มรายการไฟล์ใหม่
+        <h2 class="text-xs font-bold text-purple-400 mb-3 uppercase tracking-wider flex items-center gap-1.5">
+            <i class="fa-solid fa-file-circle-plus"></i> เพิ่มไฟล์ใหม่เข้าสู่ระบบ
         </h2>
         <div class="space-y-3">
             <div>
                 <label class="block text-[11px] text-slate-400 mb-1">รหัสผ่าน Admin *</label>
-                <input type="password" id="adminPass" placeholder="กรอกรหัสผ่าน (เช่น 1234)" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-purple-500">
+                <input type="password" id="adminPass" placeholder="กรอกรหัสผ่าน Admin" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-purple-500">
             </div>
             <div>
-                <label class="block text-[11px] text-slate-400 mb-1">ชื่อไฟล์ / ชื่อเพลง *</label>
-                <input type="text" id="fileTitle" placeholder="เช่น Nonstop Remix Vol.1" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-purple-500">
+                <label class="block text-[11px] text-slate-400 mb-1">ชื่อไฟล์ / หัวข้อ *</label>
+                <input type="text" id="fileTitle" placeholder="เช่น DJ Loop Kit Vol.1 หรือ โปรแกรม X" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-purple-500">
             </div>
             <div>
                 <label class="block text-[11px] text-slate-400 mb-1">หมวดหมู่</label>
-                <input type="text" id="fileCategory" placeholder="เช่น Remix, Sound Loop, Mod" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-purple-500">
+                <input type="text" id="fileCategory" placeholder="เช่น Sound Loop, Music, Software, Mod" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-purple-500">
             </div>
             <div>
-                <label class="block text-[11px] text-slate-400 mb-1">ลิงก์ดาวน์โหลด (Google Drive / Mega) *</label>
+                <label class="block text-[11px] text-slate-400 mb-1">ลิงก์ดาวน์โหลด (Google Drive / Mega / MediaFire) *</label>
                 <input type="text" id="fileDownload" placeholder="https://drive.google.com/..." class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-purple-500">
             </div>
             <div>
-                <label class="block text-[11px] text-slate-400 mb-1">ลิงก์ไฟล์เสียงตัวอย่าง (.mp3 - ถ้ามี)</label>
+                <label class="block text-[11px] text-slate-400 mb-1">ลิงก์ตัวอย่างเสียง (.mp3 - ถ้ามี)</label>
                 <input type="text" id="fileAudio" placeholder="https://.../sample.mp3" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-purple-500">
             </div>
-            <button type="button" onclick="submitData()" id="submitBtn" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-2.5 rounded-xl text-xs transition mt-2 active:scale-95">
-                บันทึกเข้าฐานข้อมูล
+            <button type="button" onclick="submitFile()" id="submitBtn" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-2.5 rounded-xl text-xs transition mt-2 active:scale-95">
+                บันทึกไฟล์เข้าระบบ
             </button>
         </div>
     </div>
 
-    <!-- รายการไฟล์สำหรับลบ -->
-    <h2 class="text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider">
-        <i class="fa-solid fa-list mr-1.5"></i>จัดการรายการในระบบ
+    <!-- รายการจัดการ -->
+    <h2 class="text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider flex items-center gap-1.5">
+        <i class="fa-solid fa-list-check"></i> จัดการรายการไฟล์ในระบบ
     </h2>
     <div id="adminFileList" class="space-y-3">
         <div class="text-center py-8 text-slate-500 text-xs glass-card rounded-xl">กำลังโหลด...</div>
@@ -71,9 +71,19 @@
             const listEl = document.getElementById('adminFileList');
             try {
                 const res = await fetch('/api/files');
-                const files = await res.json();
+                
+                // ตรวจสอบ Content-Type ก่อน parse
+                const contentType = res.headers.get("content-type");
+                let files;
+                if (contentType && contentType.includes("application/json")) {
+                    files = await res.json();
+                } else {
+                    listEl.innerHTML = `<div class="text-center py-6 text-red-400 text-xs glass-card rounded-xl">ยังไม่ได้ตั้งค่า API Server (` + res.status + `)</div>`;
+                    return;
+                }
+
                 if (!files || files.length === 0) {
-                    listEl.innerHTML = `<div class="text-center py-6 text-slate-500 text-xs glass-card rounded-xl">ยังไม่มีข้อมูลในระบบ</div>`;
+                    listEl.innerHTML = `<div class="text-center py-6 text-slate-500 text-xs glass-card rounded-xl">ยังไม่มีไฟล์ในระบบ</div>`;
                     return;
                 }
                 listEl.innerHTML = files.map(file => `
@@ -92,7 +102,7 @@
             }
         }
 
-        async function submitData() {
+        async function submitFile() {
             const pass = document.getElementById('adminPass').value;
             const title = document.getElementById('fileTitle').value;
             const downloadUrl = document.getElementById('fileDownload').value;
@@ -120,12 +130,20 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-                const data = await res.json();
 
-                if (!res.ok) throw new Error(data.error || 'รหัสผ่านไม่ถูกต้อง หรือเกิดข้อผิดพลาด');
+                // ดักจับรูปแบบข้อมูลที่ตอบกลับมาจาก Server
+                const contentType = res.headers.get("content-type");
+                let data;
+                if (contentType && contentType.includes("application/json")) {
+                    data = await res.json();
+                } else {
+                    const textErr = await res.text();
+                    throw new Error(`ข้อผิดพลาดจาก Server (${res.status}): โปรดตรวจสอบการสร้างไฟล์ /api/files.js`);
+                }
 
-                alert('เพิ่มรายการสำเร็จ!');
-                document.getElementById('adminPass').value = '';
+                if (!res.ok) throw new Error(data.error || 'เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+
+                alert('เพิ่มไฟล์สำเร็จ!');
                 document.getElementById('fileTitle').value = '';
                 document.getElementById('fileCategory').value = '';
                 document.getElementById('fileDownload').value = '';
@@ -135,7 +153,7 @@
                 alert(err.message);
             } finally {
                 btn.disabled = false;
-                btn.innerText = 'บันทึกเข้าฐานข้อมูล';
+                btn.innerText = 'บันทึกไฟล์เข้าระบบ';
             }
         }
 
@@ -149,7 +167,16 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ id, password: pass })
                 });
-                if (!res.ok) throw new Error('รหัสผ่านไม่ถูกต้อง');
+
+                const contentType = res.headers.get("content-type");
+                let data;
+                if (contentType && contentType.includes("application/json")) {
+                    data = await res.json();
+                } else {
+                    throw new Error('Server ไม่ตอบกลับในรูปแบบ JSON');
+                }
+
+                if (!res.ok) throw new Error(data.error || 'รหัสผ่านไม่ถูกต้อง');
 
                 alert('ลบรายการเรียบร้อย');
                 loadAdminFiles();
@@ -159,7 +186,6 @@
         }
 
         function escapeHtml(str) { return (str || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
-
         loadAdminFiles();
     </script>
 </body>
